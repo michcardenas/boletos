@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Segunda Gala de Reconocimientos - FECOER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #152536;
+            --bg-deep: #0e1c2a;
+            --bg-mid: #1a2d3e;
+            --gold-primary: #c9a84c;
+            --gold-light: #e8d48b;
+            --gold-dark: #a07c2a;
+            --gold-gradient: linear-gradient(135deg, #a07c2a 0%, #c9a84c 25%, #e8d48b 50%, #c9a84c 75%, #a07c2a 100%);
+            --text-primary: #eae6dc;
+            --text-secondary: #bfc5cc;
+            --text-muted: #607080;
+            --border-gold: rgba(201, 168, 76, 0.45);
+            --border-gold-strong: rgba(232, 212, 139, 0.7);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══ PARTÍCULAS ═══ */
+        .particles-container {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; overflow: hidden;
+        }
+
+        .particle { position: absolute; border-radius: 50%; }
+
+        .particle--glow {
+            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.6) 40%, transparent 70%);
+            animation: floatUp linear infinite;
+        }
+        .particle--soft {
+            background: radial-gradient(circle, rgba(255,240,180,0.8) 0%, rgba(201,168,76,0.3) 50%, transparent 70%);
+            animation: floatUp linear infinite;
+        }
+        .particle--bright {
+            background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(232,212,139,0.7) 30%, transparent 60%);
+            animation: floatUp linear infinite;
+        }
+        .particle--static {
+            background: radial-gradient(circle, rgba(232,212,139,0.9) 0%, rgba(201,168,76,0.2) 50%, transparent 70%);
+            animation: twinkle ease-in-out infinite;
+        }
+
+        @keyframes floatUp {
+            0%   { transform: translateY(0) scale(0.3); opacity: 0; }
+            8%   { opacity: 1; }
+            50%  { opacity: 0.9; }
+            85%  { opacity: 0.6; }
+            100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50%      { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* ═══ NAVBAR ═══ */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: url('/images/fondo-menu.png') center / cover no-repeat;
+            background-color: var(--bg-deep);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-inner {
+            display: flex; align-items: center; justify-content: center;
+            padding: 18px 40px; position: relative;
+        }
+
+        .navbar.scrolled .navbar-inner { padding: 12px 40px; }
+
+        .nav-links { display: flex; align-items: center; gap: 44px; }
+
+        .nav-link {
+            font-family: 'Montserrat', sans-serif; font-size: 0.84rem; font-weight: 500;
+            color: var(--text-primary); text-decoration: none; letter-spacing: 0.03em;
+            transition: color 0.3s ease; white-space: nowrap; text-align: center; line-height: 1.4;
+        }
+        .nav-link:hover { color: var(--gold-light); }
+
+        .nav-btn-acceso {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 8px 30px; background: var(--gold-gradient);
+            border: none; border-radius: 50px;
+            font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+            font-weight: 600; font-style: italic; color: var(--bg-deep);
+            text-decoration: none; letter-spacing: 0.04em;
+            transition: all 0.4s ease; box-shadow: 0 3px 15px rgba(201,168,76,0.3);
+            position: relative; overflow: hidden;
+        }
+        .nav-btn-acceso::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            transition: left 0.5s ease;
+        }
+        .nav-btn-acceso:hover { transform: translateY(-1px); box-shadow: 0 5px 25px rgba(201,168,76,0.4); }
+        .nav-btn-acceso:hover::before { left: 100%; }
+
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px;
+            z-index: 110; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+        }
+        .nav-hamburger span { display: block; width: 26px; height: 2px; background: var(--gold-primary); transition: all 0.3s ease; }
+        .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(7px); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-7px); }
+
+        /* ═══ HERO ═══ */
+        .hero {
+            position: relative; z-index: 2;
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 100px 60px 60px;
+            background:
+                radial-gradient(ellipse at 20% 45%, rgba(201,168,76,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 40%),
+                linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 30%, var(--bg-mid) 70%, var(--bg-primary) 100%);
+        }
+
+        .hero-content {
+            display: flex; align-items: center; justify-content: center;
+            gap: 50px; max-width: 1200px; width: 100%; margin-bottom: 50px;
+        }
+
+        .hero-left { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+        .tree-logo {
+            max-width: 500px; width: 100%; height: auto;
+            filter: drop-shadow(0 0 40px rgba(201,168,76,0.12));
+        }
+
+        .hero-right { flex: 1; max-width: 540px; }
+
+        .gold-frame { position: relative; padding: 42px 40px; }
+        .gold-frame::before {
+            content: ''; position: absolute; inset: 0;
+            border: 1.5px solid var(--border-gold); pointer-events: none;
+        }
+        .gold-frame::after {
+            content: ''; position: absolute; inset: 7px;
+            border: 1px solid var(--border-gold-strong); pointer-events: none;
+        }
+
+        .gold-frame p {
+            font-family: 'Montserrat', sans-serif; font-size: 1.02rem;
+            font-weight: 400; color: var(--text-primary); line-height: 1.75;
+        }
+        .gold-frame p + p { margin-top: 22px; }
+
+        .hero-date { text-align: center; width: 100%; }
+        .hero-date-text {
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            font-size: 1.35rem; color: var(--gold-light); margin-bottom: 4px;
+        }
+        .hero-date-venue {
+            font-family: 'Playfair Display', serif; font-weight: 600;
+            font-size: 1.2rem; color: var(--gold-light);
+        }
+
+        /* ═══ SECCIONES ═══ */
+        .section { position: relative; z-index: 2; padding: 80px 60px; max-width: 1200px; margin: 0 auto; }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif; font-style: italic;
+            font-weight: 500; font-size: 2.4rem; color: var(--gold-light); margin-bottom: 40px;
+        }
+
+        /* ═══ ENTRADAS ═══ */
+        .entradas-content { display: flex; align-items: center; gap: 60px; }
+
+        .ticket-visual {
+            flex-shrink: 0; width: 380px; height: 180px;
+            background: var(--gold-gradient); border-radius: 12px;
+            display: flex; align-items: center; overflow: hidden;
+            box-shadow: 0 8px 40px rgba(201,168,76,0.2); position: relative;
+        }
+        .ticket-visual::before {
+            content: ''; position: absolute; left: 90px; top: -10px; bottom: -10px;
+            border-left: 2px dashed rgba(15,25,35,0.3);
+        }
+
+        .ticket-left { width: 90px; display: flex; align-items: center; justify-content: center; height: 100%; position: relative; }
+        .ticket-left-text {
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.75rem;
+            color: var(--bg-deep); letter-spacing: 0.15em; text-transform: uppercase;
+            writing-mode: vertical-rl; transform: rotate(180deg);
+        }
+        .ticket-left-stars { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 0.5rem; color: var(--bg-deep); letter-spacing: 3px; }
+
+        .ticket-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 20px; padding: 20px; }
+        .ticket-body-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--bg-deep); text-align: center; line-height: 1.3; }
+        .ticket-body-title span { display: block; font-family: 'Playfair Display', serif; font-style: normal; font-size: 1rem; letter-spacing: 0.12em; font-weight: 700; margin-top: 2px; }
+        .ticket-badge { display: inline-block; margin-top: 8px; padding: 3px 16px; background: rgba(15,25,35,0.15); border-radius: 50px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--bg-deep); }
+        .ticket-info { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; color: var(--bg-deep); writing-mode: vertical-rl; letter-spacing: 0.04em; line-height: 1.6; opacity: 0.7; padding-right: 15px; }
+
+        .entradas-form { flex: 1; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+        .form-input, .form-select {
+            width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.93);
+            border: none; border-radius: 4px; color: #333;
+            font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
+            outline: none; transition: box-shadow 0.3s ease;
+        }
+        .form-input:focus, .form-select:focus { box-shadow: 0 0 0 3px rgba(201,168,76,0.3); }
+
+        .btn-gold {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 32px; background: var(--gold-gradient);
+            border: none; border-radius: 50px;
+            font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+            font-weight: 600; font-style: italic; color: var(--bg-deep);
+            cursor: pointer; letter-spacing: 0.05em;
+            transition: all 0.4s ease; box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+            position: relative; overflow: hidden; margin-top: 10px;
+        }
+        .btn-gold::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(201,168,76,0.4); }
+        .btn-gold:hover::before { left: 100%; }
+
+        .btn-gold-icon { width: 28px; height: 28px; background: rgba(15,25,35,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+
+        .entradas-note { text-align: center; margin-top: 50px; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+        .entradas-note strong { color: var(--gold-light); font-weight: 600; }
+
+        /* ═══ PROGRAMACIÓN ═══ */
+        #programacion { text-align: center; }
+        .programacion-icon {
+            width: 120px; height: 120px; margin: 0 auto 30px;
+            background: var(--gold-gradient); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 40px rgba(201,168,76,0.2); position: relative;
+        }
+        .programacion-icon::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); }
+        .programacion-icon svg { width: 50px; height: 50px; }
+
+        /* ═══ ALIADOS ═══ */
+        .aliados-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .aliado-card {
+            height: 100px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+            letter-spacing: 0.05em; transition: all 0.3s ease;
+        }
+        .aliado-card:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.05); color: var(--text-secondary); }
+
+        /* ═══ CONTACTO ═══ */
+        #contacto { text-align: center; }
+        .contacto-subtitle { font-size: 1rem; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.6; }
+        .contacto-form { max-width: 520px; margin: 0 auto; text-align: left; }
+        .form-textarea {
+            width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.93);
+            border: none; border-radius: 4px; color: #333;
+            font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
+            outline: none; resize: vertical; min-height: 120px;
+            transition: box-shadow 0.3s ease;
+        }
+        .form-textarea:focus { box-shadow: 0 0 0 3px rgba(201,168,76,0.3); }
+
+        /* ═══ FOOTER ═══ */
+        .site-footer {
+            position: relative; z-index: 2; padding: 30px 60px;
+            border-top: 2px solid;
+            border-image: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-primary), var(--gold-dark)) 1;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-copy { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); }
+        .footer-socials { display: flex; gap: 14px; }
+        .social-btn {
+            width: 40px; height: 40px; background: var(--gold-gradient);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: var(--bg-deep); font-weight: 700; font-size: 0.9rem;
+            transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(201,168,76,0.2);
+        }
+        .social-btn:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(201,168,76,0.4); }
+
+        /* ═══ FADE IN ═══ */
+        .fade-in { opacity: 0; transform: translateY(35px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 900px) {
+            .navbar-inner { padding: 14px 20px; }
+            .nav-links {
+                display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(14,28,42,0.97); flex-direction: column;
+                align-items: center; justify-content: center; gap: 30px; z-index: 105;
+            }
+            .nav-links.open { display: flex; }
+            .nav-link { font-size: 1.1rem; }
+            .nav-link br { display: none; }
+            .nav-hamburger { display: flex; }
+            .hero { padding: 100px 24px 50px; }
+            .hero-content { flex-direction: column; gap: 40px; }
+            .tree-logo { max-width: 300px; }
+            .gold-frame { padding: 28px 24px; }
+            .gold-frame p { font-size: 0.92rem; }
+            .section { padding: 60px 24px; }
+            .entradas-content { flex-direction: column; }
+            .ticket-visual { width: 100%; max-width: 380px; }
+            .aliados-grid { grid-template-columns: repeat(2, 1fr); }
+            .site-footer { flex-direction: column; gap: 20px; text-align: center; padding: 30px 24px; }
+        }
+        @media (max-width: 500px) {
+            .aliados-grid { grid-template-columns: 1fr; }
+            .hero-date-text { font-size: 1.1rem; }
+            .hero-date-venue { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles-container" id="particles"></div>
+
+    <!-- ═══ NAVBAR ═══ -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <div class="nav-hamburger" id="navHamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#entradas" class="nav-link" onclick="closeMenu()">Adquiere tus<br>entradas</a>
+                <a href="#programacion" class="nav-link" onclick="closeMenu()">Programación<br>del evento</a>
+                <a href="#aliados" class="nav-link" onclick="closeMenu()">Aliados</a>
+                <a href="#contacto" class="nav-link" onclick="closeMenu()">Contáctenos</a>
+                @auth
+                    <a href="{{ route('dashboard') }}" class="nav-btn-acceso">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="nav-btn-acceso">Acceso</a>
+                @endauth
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-left">
+                <img src="/images/logo-fecoer.png" alt="Segunda Gala de Reconocimientos FECOER" class="tree-logo">
+            </div>
+            <div class="hero-right fade-in">
+                <div class="gold-frame">
+                    <p>Cada avance en Enfermedades Raras tiene un rostro, una historia y una lucha silenciosa detrás. Nada de lo que hoy existe ha sido casualidad: ha sido fruto de personas, instituciones e iniciativas que no se rindieron cuando el camino fue más difícil.</p>
+                    <p>La Segunda Gala de Reconocimientos FECOER es el espacio para decir gracias, para visibilizar a quienes defienden la vida, el acceso a la salud y la dignidad de las personas con Enfermedades Raras en Colombia.</p>
+                </div>
+            </div>
+        </div>
+        <div class="hero-date fade-in">
+            <div class="hero-date-text">Viernes 27 de febrero de 2026 - 6:00 p. m.</div>
+            <div class="hero-date-venue">Hotel Sonesta, Bogotá.</div>
+        </div>
+    </section>
+
+    <!-- ═══ ENTRADAS ═══ -->
+    <section class="section" id="entradas">
+        <div class="section-title fade-in">Adquiere tus entradas</div>
+        <div class="entradas-content">
+            <div class="ticket-visual fade-in">
+                <div class="ticket-left">
+                    <div class="ticket-left-stars">★ ★ ★ ★</div>
+                    <div class="ticket-left-text">BIENVENIDOS</div>
+                </div>
+                <div class="ticket-body">
+                    <div>
+                        <div class="ticket-body-title">Segunda Gala<br>de Reconocimientos<span>FECOER</span></div>
+                        <div class="ticket-badge">Asistente</div>
+                    </div>
+                    <div class="ticket-info">Viernes 27 de febrero de 2026<br>6:00 p. m.<br>Hotel Sonesta, Bogotá.</div>
+                </div>
+            </div>
+            <div class="entradas-form fade-in">
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">Tipo de entrada</label>
+                        <select class="form-select">
+                            <option value="">Seleccionar...</option>
+                            <option value="asistente">Asistente</option>
+                            <option value="vip">VIP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cantidad de boletas</label>
+                        <input type="number" class="form-input" min="1" max="10" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Donación</label>
+                        <input type="text" class="form-input" placeholder="$ 0">
+                    </div>
+                    <button type="submit" class="btn-gold">
+                        <span class="btn-gold-icon">🔒</span>
+                        Comprar ahora
+                    </button>
+                </form>
+            </div>
+        </div>
+        <p class="entradas-note fade-in">Tu aporte nos ayudará a continuar trabajando por las personas con enfermedades raras.<br><strong>¡Gracias por ser parte de esta causa!</strong></p>
+    </section>
+
+    <!-- ═══ PROGRAMACIÓN ═══ -->
+    <section class="section" id="programacion">
+        <div class="section-title fade-in">Programación del evento</div>
+        <div class="fade-in" style="text-align: center;">
+            <div class="programacion-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--bg-deep);">
+                    <path d="M12 21C12 21 4 13.5 4 8.5C4 5.46 6.46 3 9.5 3C11.08 3 12 4 12 4C12 4 12.92 3 14.5 3C17.54 3 20 5.46 20 8.5C20 13.5 12 21 12 21Z"/>
+                    <path d="M12 21L12 10M12 10L8 14M12 10L16 14" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <a href="#" class="btn-gold">Descargar</a>
+        </div>
+    </section>
+
+    <!-- ═══ ALIADOS ═══ -->
+    <section class="section" id="aliados">
+        <div class="section-title fade-in">Aliados</div>
+        <div class="aliados-grid fade-in">
+            <div class="aliado-card">Aliado 1</div>
+            <div class="aliado-card">Aliado 2</div>
+            <div class="aliado-card">Aliado 3</div>
+            <div class="aliado-card">Aliado 4</div>
+            <div class="aliado-card">Aliado 5</div>
+            <div class="aliado-card">Aliado 6</div>
+        </div>
+    </section>
+
+    <!-- ═══ CONTACTO ═══ -->
+    <section class="section" id="contacto">
+        <div class="section-title fade-in">Contáctenos</div>
+        <p class="contacto-subtitle fade-in">¿Tienes preguntas o deseas más información sobre nosotros?<br>No dudes en contactarnos</p>
+        <div class="contacto-form fade-in">
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Nombres y apellidos</label>
+                    <input type="text" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mensaje</label>
+                    <textarea class="form-textarea"></textarea>
+                </div>
+                <button type="submit" class="btn-gold">Enviar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="site-footer">
+        <div class="footer-copy">Copyright &copy; {{ date('Y') }} Todos los derechos reservados FECOER</div>
+        <div class="footer-socials">
+            <a href="#" class="social-btn" title="Facebook">f</a>
+            <a href="#" class="social-btn" title="X">𝕏</a>
+            <a href="#" class="social-btn" title="Instagram">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" class="social-btn" title="TikTok">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.52a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.19a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.62z"/></svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // ═══ PARTÍCULAS MEJORADAS ═══
+        (function() {
+            const c = document.getElementById('particles');
+            const types = ['particle--glow', 'particle--soft', 'particle--bright'];
+
+            // 70 partículas flotantes
+            for (let i = 0; i < 70; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle ' + types[Math.floor(Math.random() * types.length)];
+                const s = Math.random() * 5 + 2;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 12 + 10) + 's';
+                p.style.animationDelay = (Math.random() * 12) + 's';
+                c.appendChild(p);
+            }
+
+            // 30 partículas estáticas que titilan
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle particle--static';
+                const s = Math.random() * 3 + 1.5;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 4 + 2) + 's';
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                c.appendChild(p);
+            }
+        })();
+
+        // ═══ NAVBAR SCROLL ═══
+        window.addEventListener('scroll', function() {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ═══ MOBILE MENU ═══
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+            document.getElementById('navHamburger').classList.toggle('active');
+        }
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navHamburger').classList.remove('active');
+        }
+
+        // ═══ FADE IN ═══
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
