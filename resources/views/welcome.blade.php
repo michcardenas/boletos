@@ -46,32 +46,36 @@
         .particle { position: absolute; border-radius: 50%; }
 
         .particle--glow {
-            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.6) 40%, transparent 70%);
+            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.8) 40%, transparent 70%);
             animation: floatUp linear infinite;
+            box-shadow: 0 0 6px 2px rgba(232,212,139,0.4);
         }
         .particle--soft {
-            background: radial-gradient(circle, rgba(255,240,180,0.8) 0%, rgba(201,168,76,0.3) 50%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,240,180,1) 0%, rgba(201,168,76,0.5) 50%, transparent 70%);
             animation: floatUp linear infinite;
+            box-shadow: 0 0 4px 1px rgba(255,240,180,0.3);
         }
         .particle--bright {
-            background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(232,212,139,0.7) 30%, transparent 60%);
+            background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(232,212,139,0.9) 30%, transparent 60%);
             animation: floatUp linear infinite;
+            box-shadow: 0 0 8px 3px rgba(255,255,220,0.5);
         }
         .particle--static {
-            background: radial-gradient(circle, rgba(232,212,139,0.9) 0%, rgba(201,168,76,0.2) 50%, transparent 70%);
+            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.4) 50%, transparent 70%);
             animation: twinkle ease-in-out infinite;
+            box-shadow: 0 0 5px 2px rgba(232,212,139,0.3);
         }
 
         @keyframes floatUp {
             0%   { transform: translateY(0) scale(0.3); opacity: 0; }
             8%   { opacity: 1; }
-            50%  { opacity: 0.9; }
-            85%  { opacity: 0.6; }
-            100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+            50%  { opacity: 1; }
+            85%  { opacity: 0.8; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
         }
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50%      { opacity: 1; transform: scale(1.3); }
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50%      { opacity: 1; transform: scale(1.6); }
         }
 
         /* ═══ NAVBAR ═══ */
@@ -152,14 +156,45 @@
 
         .hero-right { flex: 1; max-width: 540px; }
 
-        .gold-frame { position: relative; padding: 42px 40px; }
+        .gold-frame { position: relative; padding: 42px 40px; overflow: visible; }
         .gold-frame::before {
             content: ''; position: absolute; inset: 0;
             border: 1.5px solid var(--border-gold); pointer-events: none;
+            transition: all 0.5s ease;
         }
         .gold-frame::after {
             content: ''; position: absolute; inset: 7px;
             border: 1px solid var(--border-gold-strong); pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        .gold-frame:hover::before {
+            border-width: 2.5px;
+            border-color: rgba(232,212,139,0.8);
+            box-shadow: 0 0 15px rgba(201,168,76,0.4), inset 0 0 15px rgba(201,168,76,0.15);
+        }
+        .gold-frame:hover::after {
+            border-width: 2px;
+            border-color: rgba(232,212,139,0.9);
+            box-shadow: 0 0 20px rgba(232,212,139,0.5), inset 0 0 20px rgba(232,212,139,0.2);
+        }
+
+        /* Partículas que salen del cuadro */
+        .frame-particles {
+            position: absolute; top: 0; right: -60px;
+            width: 120px; height: 100%;
+            pointer-events: none; overflow: visible; z-index: 5;
+        }
+        .frame-particle {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.6) 40%, transparent 70%);
+            box-shadow: 0 0 6px 2px rgba(232,212,139,0.4);
+            animation: frameFloat linear infinite;
+        }
+        @keyframes frameFloat {
+            0%   { transform: translate(0, 0) scale(0.3); opacity: 0; }
+            10%  { opacity: 1; }
+            50%  { opacity: 0.9; }
+            100% { transform: translate(80px, -120px) scale(0.8); opacity: 0; }
         }
 
         .gold-frame p {
@@ -187,44 +222,42 @@
         }
 
         /* ═══ ENTRADAS ═══ */
-        .entradas-content { display: flex; align-items: center; gap: 60px; }
+        .entradas-content { display: flex; align-items: stretch; gap: 50px; }
 
         .ticket-visual {
-            flex-shrink: 0; width: 380px; height: 180px;
-            background: var(--gold-gradient); border-radius: 12px;
-            display: flex; align-items: center; overflow: hidden;
-            box-shadow: 0 8px 40px rgba(201,168,76,0.2); position: relative;
+            flex: 1; display: flex; align-items: center; justify-content: center;
         }
-        .ticket-visual::before {
-            content: ''; position: absolute; left: 90px; top: -10px; bottom: -10px;
-            border-left: 2px dashed rgba(15,25,35,0.3);
+        .ticket-img {
+            width: 100%; height: auto; display: block;
+            filter: drop-shadow(0 8px 40px rgba(201,168,76,0.2));
         }
-
-        .ticket-left { width: 90px; display: flex; align-items: center; justify-content: center; height: 100%; position: relative; }
-        .ticket-left-text {
-            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.75rem;
-            color: var(--bg-deep); letter-spacing: 0.15em; text-transform: uppercase;
-            writing-mode: vertical-rl; transform: rotate(180deg);
-        }
-        .ticket-left-stars { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 0.5rem; color: var(--bg-deep); letter-spacing: 3px; }
-
-        .ticket-body { flex: 1; display: flex; align-items: center; justify-content: center; gap: 20px; padding: 20px; }
-        .ticket-body-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--bg-deep); text-align: center; line-height: 1.3; }
-        .ticket-body-title span { display: block; font-family: 'Playfair Display', serif; font-style: normal; font-size: 1rem; letter-spacing: 0.12em; font-weight: 700; margin-top: 2px; }
-        .ticket-badge { display: inline-block; margin-top: 8px; padding: 3px 16px; background: rgba(15,25,35,0.15); border-radius: 50px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--bg-deep); }
-        .ticket-info { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; color: var(--bg-deep); writing-mode: vertical-rl; letter-spacing: 0.04em; line-height: 1.6; opacity: 0.7; padding-right: 15px; }
 
         .entradas-form { flex: 1; }
 
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
-        .form-input, .form-select {
-            width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.93);
-            border: none; border-radius: 4px; color: #333;
-            font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
-            outline: none; transition: box-shadow 0.3s ease;
+        .form-group { margin-bottom: 22px; position: relative; }
+        .form-label {
+            display: block; font-size: 0.78rem; font-weight: 500;
+            color: var(--text-secondary); margin-bottom: 8px;
+            letter-spacing: 0.08em; text-transform: uppercase;
         }
-        .form-input:focus, .form-select:focus { box-shadow: 0 0 0 3px rgba(201,168,76,0.3); }
+        .form-input, .form-select {
+            width: 100%; padding: 13px 24px;
+            background: rgba(255,255,255,0.93);
+            border: none; border-radius: 50px; color: #333;
+            font-family: 'Montserrat', sans-serif; font-size: 0.92rem;
+            font-weight: 400; letter-spacing: 0.02em;
+            outline: none; transition: all 0.35s ease;
+        }
+        .form-input::placeholder { color: #999; font-weight: 300; }
+        .form-input:focus, .form-select:focus {
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.25), 0 0 20px rgba(201,168,76,0.1);
+        }
+        .form-select {
+            -webkit-appearance: none; appearance: none; cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 20px center;
+            padding-right: 48px;
+        }
 
         .btn-gold {
             display: inline-flex; align-items: center; gap: 10px;
@@ -245,21 +278,46 @@
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(201,168,76,0.4); }
         .btn-gold:hover::before { left: 100%; }
 
-        .btn-gold-icon { width: 28px; height: 28px; background: rgba(15,25,35,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+        .btn-pago {
+            display: inline-flex; align-items: center; gap: 16px;
+            background: none; border: none; cursor: pointer;
+            padding: 10px 0; margin-top: 10px; transition: all 0.4s ease;
+            position: relative;
+        }
+        .btn-pago:hover { transform: translateY(-3px); }
+        .btn-pago:hover .btn-pago-img {
+            filter: drop-shadow(0 0 12px rgba(232,212,139,0.7)) drop-shadow(0 0 25px rgba(201,168,76,0.4));
+            transform: scale(1.1);
+        }
+        .btn-pago:hover .btn-pago-text {
+            text-shadow: 0 0 15px rgba(232,212,139,0.6), 0 0 30px rgba(201,168,76,0.3);
+        }
+        .btn-pago-img {
+            width: 44px; height: 44px; object-fit: contain; flex-shrink: 0;
+            filter: drop-shadow(0 0 6px rgba(201,168,76,0.3));
+            transition: all 0.4s ease;
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 6px rgba(201,168,76,0.3)); }
+            50%      { filter: drop-shadow(0 0 14px rgba(232,212,139,0.6)); }
+        }
+        .btn-pago-text {
+            font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+            font-weight: 600; font-style: italic; color: var(--gold-light);
+            letter-spacing: 0.04em; transition: all 0.4s ease;
+        }
 
         .entradas-note { text-align: center; margin-top: 50px; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
         .entradas-note strong { color: var(--gold-light); font-weight: 600; }
 
         /* ═══ PROGRAMACIÓN ═══ */
         #programacion { text-align: center; }
-        .programacion-icon {
-            width: 120px; height: 120px; margin: 0 auto 30px;
-            background: var(--gold-gradient); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 8px 40px rgba(201,168,76,0.2); position: relative;
+        .programacion-img {
+            width: 280px; height: 280px; object-fit: contain;
+            margin: 0 auto 30px; display: block;
+            filter: drop-shadow(0 8px 30px rgba(201,168,76,0.3));
         }
-        .programacion-icon::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); }
-        .programacion-icon svg { width: 50px; height: 50px; }
 
         /* ═══ ALIADOS ═══ */
         .aliados-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
@@ -277,13 +335,18 @@
         .contacto-subtitle { font-size: 1rem; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.6; }
         .contacto-form { max-width: 520px; margin: 0 auto; text-align: left; }
         .form-textarea {
-            width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.93);
-            border: none; border-radius: 4px; color: #333;
-            font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
+            width: 100%; padding: 16px 24px;
+            background: rgba(255,255,255,0.93);
+            border: none; border-radius: 20px; color: #333;
+            font-family: 'Montserrat', sans-serif; font-size: 0.92rem;
+            font-weight: 400; letter-spacing: 0.02em;
             outline: none; resize: vertical; min-height: 120px;
-            transition: box-shadow 0.3s ease;
+            transition: all 0.35s ease;
         }
-        .form-textarea:focus { box-shadow: 0 0 0 3px rgba(201,168,76,0.3); }
+        .form-textarea::placeholder { color: #999; font-weight: 300; }
+        .form-textarea:focus {
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.25), 0 0 20px rgba(201,168,76,0.1);
+        }
 
         /* ═══ FOOTER ═══ */
         .site-footer {
@@ -308,7 +371,8 @@
 
         /* ═══ RESPONSIVE ═══ */
         @media (max-width: 900px) {
-            .navbar-inner { padding: 14px 20px; }
+            .navbar-inner { padding: 22px 20px; }
+            .navbar.scrolled .navbar-inner { padding: 16px 20px; }
             .nav-links {
                 display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
                 background: rgba(14,28,42,0.97); flex-direction: column;
@@ -323,16 +387,44 @@
             .tree-logo { max-width: 300px; }
             .gold-frame { padding: 28px 24px; }
             .gold-frame p { font-size: 0.92rem; }
+            .frame-particles { display: none; }
             .section { padding: 60px 24px; }
+            .section-title { font-size: 1.8rem; }
             .entradas-content { flex-direction: column; }
-            .ticket-visual { width: 100%; max-width: 380px; }
+            .ticket-visual { width: 100%; max-width: 500px; margin: 0 auto; }
+            .entradas-form { width: 100%; }
+            .btn-pago { justify-content: center; width: 100%; }
+            .programacion-img { width: 200px; height: 200px; }
             .aliados-grid { grid-template-columns: repeat(2, 1fr); }
+            .contacto-form { padding: 0 10px; }
             .site-footer { flex-direction: column; gap: 20px; text-align: center; padding: 30px 24px; }
         }
         @media (max-width: 500px) {
+            .hero { padding: 90px 16px 40px; }
+            .hero-content { gap: 28px; margin-bottom: 30px; }
+            .tree-logo { max-width: 220px; }
+            .gold-frame { padding: 22px 18px; }
+            .gold-frame p { font-size: 0.85rem; }
+            .section { padding: 50px 16px; }
+            .section-title { font-size: 1.5rem; }
+            .form-input, .form-select { padding: 11px 18px; font-size: 0.85rem; }
+            .form-textarea { border-radius: 16px; }
+            .programacion-img { width: 160px; height: 160px; }
+            .btn-pago-text { font-size: 1.1rem; }
+            .btn-pago-img { width: 38px; height: 38px; }
+            .entradas-note { font-size: 0.85rem; }
             .aliados-grid { grid-template-columns: 1fr; }
             .hero-date-text { font-size: 1.1rem; }
             .hero-date-venue { font-size: 1rem; }
+            .site-footer { padding: 24px 16px; }
+        }
+        @media (max-width: 360px) {
+            .hero { padding: 80px 12px 30px; }
+            .tree-logo { max-width: 180px; }
+            .gold-frame { padding: 18px 14px; }
+            .gold-frame p { font-size: 0.8rem; line-height: 1.6; }
+            .section-title { font-size: 1.3rem; }
+            .form-label { font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -368,6 +460,7 @@
             </div>
             <div class="hero-right fade-in">
                 <div class="gold-frame">
+                    <div class="frame-particles" id="frameParticles"></div>
                     <p>Cada avance en Enfermedades Raras tiene un rostro, una historia y una lucha silenciosa detrás. Nada de lo que hoy existe ha sido casualidad: ha sido fruto de personas, instituciones e iniciativas que no se rindieron cuando el camino fue más difícil.</p>
                     <p>La Segunda Gala de Reconocimientos FECOER es el espacio para decir gracias, para visibilizar a quienes defienden la vida, el acceso a la salud y la dignidad de las personas con Enfermedades Raras en Colombia.</p>
                 </div>
@@ -384,17 +477,7 @@
         <div class="section-title fade-in">Adquiere tus entradas</div>
         <div class="entradas-content">
             <div class="ticket-visual fade-in">
-                <div class="ticket-left">
-                    <div class="ticket-left-stars">★ ★ ★ ★</div>
-                    <div class="ticket-left-text">BIENVENIDOS</div>
-                </div>
-                <div class="ticket-body">
-                    <div>
-                        <div class="ticket-body-title">Segunda Gala<br>de Reconocimientos<span>FECOER</span></div>
-                        <div class="ticket-badge">Asistente</div>
-                    </div>
-                    <div class="ticket-info">Viernes 27 de febrero de 2026<br>6:00 p. m.<br>Hotel Sonesta, Bogotá.</div>
-                </div>
+                <img src="/images/boleto.png" alt="Boleto Segunda Gala de Reconocimientos FECOER" class="ticket-img">
             </div>
             <div class="entradas-form fade-in">
                 <form>
@@ -402,8 +485,8 @@
                         <label class="form-label">Tipo de entrada</label>
                         <select class="form-select">
                             <option value="">Seleccionar...</option>
-                            <option value="asistente">Asistente</option>
-                            <option value="vip">VIP</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="virtual">Virtual</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -414,9 +497,9 @@
                         <label class="form-label">Donación</label>
                         <input type="text" class="form-input" placeholder="$ 0">
                     </div>
-                    <button type="submit" class="btn-gold">
-                        <span class="btn-gold-icon">🔒</span>
-                        Comprar ahora
+                    <button type="submit" class="btn-pago">
+                        <img src="/images/pago.png" alt="Pago seguro" class="btn-pago-img">
+                        <span class="btn-pago-text">Comprar ahora</span>
                     </button>
                 </form>
             </div>
@@ -428,12 +511,7 @@
     <section class="section" id="programacion">
         <div class="section-title fade-in">Programación del evento</div>
         <div class="fade-in" style="text-align: center;">
-            <div class="programacion-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--bg-deep);">
-                    <path d="M12 21C12 21 4 13.5 4 8.5C4 5.46 6.46 3 9.5 3C11.08 3 12 4 12 4C12 4 12.92 3 14.5 3C17.54 3 20 5.46 20 8.5C20 13.5 12 21 12 21Z"/>
-                    <path d="M12 21L12 10M12 10L8 14M12 10L16 14" stroke-linecap="round"/>
-                </svg>
-            </div>
+            <img src="/images/programacion.png" alt="Programación del evento" class="programacion-img">
             <a href="#" class="btn-gold">Descargar</a>
         </div>
     </section>
@@ -495,11 +573,11 @@
             const c = document.getElementById('particles');
             const types = ['particle--glow', 'particle--soft', 'particle--bright'];
 
-            // 70 partículas flotantes
-            for (let i = 0; i < 70; i++) {
+            // 100 partículas flotantes
+            for (let i = 0; i < 100; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle ' + types[Math.floor(Math.random() * types.length)];
-                const s = Math.random() * 5 + 2;
+                const s = Math.random() * 6 + 2.5;
                 p.style.width = s + 'px';
                 p.style.height = s + 'px';
                 p.style.left = Math.random() * 100 + '%';
@@ -509,11 +587,11 @@
                 c.appendChild(p);
             }
 
-            // 30 partículas estáticas que titilan
-            for (let i = 0; i < 30; i++) {
+            // 50 partículas estáticas que titilan
+            for (let i = 0; i < 50; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle particle--static';
-                const s = Math.random() * 3 + 1.5;
+                const s = Math.random() * 4 + 2;
                 p.style.width = s + 'px';
                 p.style.height = s + 'px';
                 p.style.left = Math.random() * 100 + '%';
@@ -521,6 +599,24 @@
                 p.style.animationDuration = (Math.random() * 4 + 2) + 's';
                 p.style.animationDelay = (Math.random() * 5) + 's';
                 c.appendChild(p);
+            }
+        })();
+
+        // ═══ PARTÍCULAS DEL CUADRO DORADO ═══
+        (function() {
+            const fc = document.getElementById('frameParticles');
+            if (!fc) return;
+            for (let i = 0; i < 35; i++) {
+                const p = document.createElement('div');
+                p.className = 'frame-particle';
+                const s = Math.random() * 5 + 2;
+                p.style.width = s + 'px';
+                p.style.height = s + 'px';
+                p.style.top = Math.random() * 70 + '%';
+                p.style.left = Math.random() * 50 + '%';
+                p.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                fc.appendChild(p);
             }
         })();
 
