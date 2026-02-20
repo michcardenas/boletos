@@ -7,7 +7,7 @@
     <title>Acceso - FECOER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after {
             margin: 0;
@@ -16,16 +16,17 @@
         }
 
         :root {
-            --bg-primary: #0f1923;
-            --bg-secondary: #1a2a3a;
+            --bg-primary: #152536;
+            --bg-deep: #0e1c2a;
+            --bg-mid: #1a2d3e;
             --bg-card: rgba(20, 35, 50, 0.85);
             --gold-primary: #c9a84c;
             --gold-light: #e8d48b;
             --gold-dark: #a07c2a;
-            --gold-gradient: linear-gradient(135deg, #c9a84c 0%, #e8d48b 40%, #c9a84c 60%, #a07c2a 100%);
-            --text-primary: #f0ece2;
-            --text-secondary: #8a9bae;
-            --text-muted: #5a6a7a;
+            --gold-gradient: linear-gradient(135deg, #a07c2a 0%, #c9a84c 25%, #e8d48b 50%, #c9a84c 75%, #a07c2a 100%);
+            --text-primary: #eae6dc;
+            --text-secondary: #bfc5cc;
+            --text-muted: #607080;
             --border-color: rgba(201, 168, 76, 0.2);
             --border-focus: rgba(201, 168, 76, 0.5);
             --error-color: #e74c3c;
@@ -52,10 +53,9 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(20, 40, 60, 0.8) 0%, transparent 60%),
-                linear-gradient(180deg, #0f1923 0%, #162030 50%, #0f1923 100%);
+                radial-gradient(ellipse at 20% 45%, rgba(201,168,76,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 40%),
+                linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 30%, var(--bg-mid) 70%, var(--bg-primary) 100%);
             z-index: 0;
         }
 
@@ -68,30 +68,42 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
+            overflow: hidden;
         }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(232, 212, 139, 0.9) 0%, rgba(201, 168, 76, 0.3) 50%, transparent 70%);
-            animation: floatParticle linear infinite;
+        .particle { position: absolute; border-radius: 50%; }
+
+        .particle--glow {
+            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.8) 40%, transparent 70%);
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 6px 2px rgba(232,212,139,0.4);
+        }
+        .particle--soft {
+            background: radial-gradient(circle, rgba(255,240,180,1) 0%, rgba(201,168,76,0.5) 50%, transparent 70%);
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 4px 1px rgba(255,240,180,0.3);
+        }
+        .particle--bright {
+            background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(232,212,139,0.9) 30%, transparent 60%);
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 8px 3px rgba(255,255,220,0.5);
+        }
+        .particle--static {
+            background: radial-gradient(circle, rgba(232,212,139,1) 0%, rgba(201,168,76,0.4) 50%, transparent 70%);
+            animation: twinkle ease-in-out infinite;
+            box-shadow: 0 0 5px 2px rgba(232,212,139,0.3);
         }
 
-        @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1);
-                opacity: 0;
-            }
+        @keyframes floatUp {
+            0%   { transform: translateY(0) scale(0.3); opacity: 0; }
+            8%   { opacity: 1; }
+            50%  { opacity: 1; }
+            85%  { opacity: 0.8; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50%      { opacity: 1; transform: scale(1.6); }
         }
 
         /* ── Contenedor principal ── */
@@ -135,9 +147,8 @@
         }
 
         .login-subtitle {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.1rem;
-            font-style: italic;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.4rem;
             font-weight: 400;
             color: var(--gold-light);
             letter-spacing: 0.02em;
@@ -206,10 +217,9 @@
 
         /* ── Título del formulario ── */
         .form-heading {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            font-weight: 400;
             color: var(--gold-light);
             text-align: center;
             margin-bottom: 32px;
@@ -234,28 +244,26 @@
 
         .form-input {
             width: 100%;
-            padding: 13px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 3px;
-            color: var(--text-primary);
+            padding: 13px 24px;
+            background: rgba(255,255,255,0.93);
+            border: none;
+            border-radius: 50px;
+            color: #333;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.92rem;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 0.02em;
             transition: all 0.35s ease;
             outline: none;
         }
 
         .form-input::placeholder {
-            color: var(--text-muted);
+            color: #999;
             font-weight: 300;
         }
 
         .form-input:focus {
-            border-color: var(--border-focus);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.08), 0 0 20px rgba(201, 168, 76, 0.05);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.25), 0 0 20px rgba(201, 168, 76, 0.1);
         }
 
         /* ── Checkbox recordar ── */
@@ -405,6 +413,28 @@
             font-weight: 400;
         }
 
+        /* ── Link registro ── */
+        .register-link {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .register-link p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .register-link a {
+            color: var(--gold-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: var(--gold-light);
+        }
+
         /* ── Footer ── */
         .login-footer {
             text-align: center;
@@ -424,11 +454,15 @@
             }
 
             .login-subtitle {
-                font-size: 1.7rem;
+                font-size: 2rem;
             }
 
             .login-title {
                 font-size: 1.3rem;
+            }
+
+            .form-heading {
+                font-size: 1.7rem;
             }
         }
 
@@ -452,16 +486,16 @@
             }
 
             .login-subtitle {
-                font-size: 1.4rem;
+                font-size: 1.7rem;
             }
 
             .form-heading {
-                font-size: 1.25rem;
+                font-size: 1.5rem;
                 margin-bottom: 24px;
             }
 
             .form-input {
-                padding: 11px 14px;
+                padding: 11px 18px;
                 font-size: 0.85rem;
             }
 
@@ -651,6 +685,11 @@
                     Acceder
                 </button>
             </form>
+
+            <!-- Link a registro -->
+            <div class="register-link">
+                <p>¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -660,25 +699,40 @@
     </div>
 
     <script>
-        // Generar partículas brillantes
+        // Generar partículas brillantes con tipos variados
         (function() {
             const container = document.getElementById('particles');
-            const count = 45;
+            const types = ['glow', 'soft', 'bright'];
 
-            for (let i = 0; i < count; i++) {
+            // Partículas flotantes
+            for (let i = 0; i < 60; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'particle';
+                const type = types[Math.floor(Math.random() * types.length)];
+                particle.className = 'particle particle--' + type;
 
                 const size = Math.random() * 4 + 1.5;
-                const left = Math.random() * 100;
-                const duration = Math.random() * 12 + 8;
-                const delay = Math.random() * 15;
-
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
-                particle.style.left = left + '%';
-                particle.style.animationDuration = duration + 's';
-                particle.style.animationDelay = delay + 's';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.bottom = -(Math.random() * 20) + '%';
+                particle.style.animationDuration = (Math.random() * 12 + 8) + 's';
+                particle.style.animationDelay = (Math.random() * 15) + 's';
+
+                container.appendChild(particle);
+            }
+
+            // Partículas estáticas (titilantes)
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle particle--static';
+
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 4 + 2) + 's';
+                particle.style.animationDelay = (Math.random() * 5) + 's';
 
                 container.appendChild(particle);
             }
