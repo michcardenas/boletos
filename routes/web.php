@@ -57,6 +57,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/clientes', [AdminController::class, 'clientes'])->name('clientes');
     Route::get('/pagos', [AdminController::class, 'pagos'])->name('pagos');
     Route::patch('/pagos/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('pagos.updateStatus');
+    Route::post('/pagos/{order}/resend', [AdminController::class, 'resendTicket'])->name('pagos.resend');
     Route::get('/configuracion', [AdminController::class, 'configuracion'])->name('configuracion');
     Route::get('/contenido', [SiteContentController::class, 'index'])->name('contenido.index');
     Route::get('/contenido/{content}/editar', [SiteContentController::class, 'edit'])->name('contenido.edit');

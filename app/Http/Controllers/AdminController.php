@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
@@ -86,12 +87,46 @@ class AdminController extends Controller
         $message = "Orden #{$order->id} actualizada a \"{$statusLabels[$newStatus]}\".";
 
         if ($newStatus === 'paid') {
-            Mail::to($order->email)->send(new OrderApprovedMail($order));
-            $message .= ' Se ha enviado el correo de confirmacion con la boleta al cliente.';
+            try {
+                Mail::to($order->email)->send(new OrderApprovedMail($order));
+                $message .= ' Se ha enviado el correo de confirmacion con la boleta al cliente.';
+            } catch (\Exception $e) {
+                Log::error('Error enviando correo de aprobacion', [
+                    'order_id' => $order->id,
+                    'email'    => $order->email,
+                    'error'    => $e->getMessage(),
+                ]);
+                $message .= ' Error al enviar correo: ' . $e->getMessage();
+                return redirect()->route('admin.pagos')->with('error', $message);
+            }
         }
 
         return redirect()->route('admin.pagos')
             ->with('success', $message);
+    }
+
+    public function resendTicket(Order $order): RedirectResponse
+    {
+        if ($order->status !== 'paid') {
+            return redirect()->route('admin.pagos')
+                ->with('error', 'Solo se puede reenviar boletas de ordenes pagadas.');
+        }
+
+        try {
+            Mail::to($order->email)->send(new OrderApprovedMail($order));
+
+            return redirect()->route('admin.pagos')
+                ->with('success', "Boleta reenviada a {$order->email} para la orden #{$order->id}.");
+        } catch (\Exception $e) {
+            Log::error('Error reenviando boleta', [
+                'order_id' => $order->id,
+                'email'    => $order->email,
+                'error'    => $e->getMessage(),
+            ]);
+
+            return redirect()->route('admin.pagos')
+                ->with('error', "Error al reenviar boleta: {$e->getMessage()}");
+        }
     }
 
     public function configuracion(): View

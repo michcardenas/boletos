@@ -100,7 +100,15 @@
                                 @endif
 
                                 @if($orden->status === 'paid')
-                                    <form method="POST" action="{{ route('admin.pagos.updateStatus', $orden) }}" style="display: inline;">
+                                    <form method="POST" action="{{ route('admin.pagos.resend', $orden) }}" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn-action" style="background: rgba(52, 152, 219, 0.15); border: 1px solid rgba(52, 152, 219, 0.3); color: #3498db; cursor: pointer;"
+                                            onclick="return confirm('¿Reenviar boleta a {{ $orden->email }}?')">
+                                            Reenviar
+                                        </button>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('admin.pagos.updateStatus', $orden) }}" style="display: inline; margin-left: 4px;">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="status" value="refunded">

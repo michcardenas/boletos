@@ -129,7 +129,17 @@ class EpaycoController extends Controller
                     $order->payment_method    = 'epayco';
                     $order->payment_reference = $refPayco;
                     $order->save();
-                    Mail::to($order->email)->send(new OrderApprovedMail($order));
+
+                    try {
+                        Mail::to($order->email)->send(new OrderApprovedMail($order));
+                        Log::info('Boleta enviada por correo', ['order_id' => $order->id, 'email' => $order->email]);
+                    } catch (\Exception $e) {
+                        Log::error('Error enviando boleta desde webhook', [
+                            'order_id' => $order->id,
+                            'email'    => $order->email,
+                            'error'    => $e->getMessage(),
+                        ]);
+                    }
                 }
                 break;
             case 2:  // Rechazada
