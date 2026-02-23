@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderApprovedMail;
 use App\Models\Order;
 use App\Models\SiteContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class EpaycoController extends Controller
@@ -122,9 +124,13 @@ class EpaycoController extends Controller
         // 6=Reversada, 7=Retenida, 8=Iniciada, 9=Expirada, 10=Abandonada
         switch ((int) $xCodResponse) {
             case 1: // Aceptada
-                $order->status            = 'paid';
-                $order->payment_method    = 'epayco';
-                $order->payment_reference = $refPayco;
+                if ($order->status !== 'paid') {
+                    $order->status            = 'paid';
+                    $order->payment_method    = 'epayco';
+                    $order->payment_reference = $refPayco;
+                    $order->save();
+                    Mail::to($order->email)->send(new OrderApprovedMail($order));
+                }
                 break;
             case 2:  // Rechazada
             case 4:  // Fallida
