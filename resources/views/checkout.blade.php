@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="/images/logo.png">
-    <title>Registro - FECOER</title>
+    <title>Checkout - FECOER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -29,7 +29,6 @@
             --text-secondary: #bfc5cc;
             --text-muted: #607080;
             --border-color: rgba(201, 168, 76, 0.2);
-            --border-focus: rgba(201, 168, 76, 0.5);
             --error-color: #e74c3c;
         }
 
@@ -45,7 +44,6 @@
             padding: 20px 0;
         }
 
-        /* ── Fondo con gradiente radial ── */
         body::before {
             content: '';
             position: fixed;
@@ -60,7 +58,7 @@
             z-index: 0;
         }
 
-        /* ── Partículas brillantes ── */
+        /* ── Partículas ── */
         .particles {
             position: fixed;
             top: 0;
@@ -107,17 +105,18 @@
             50%      { opacity: 1; transform: scale(1.6); }
         }
 
-        /* ── Contenedor principal ── */
-        .register-container {
+        /* ── Contenedor ── */
+        .checkout-container {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 540px;
+            max-width: 580px;
             padding: 20px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        /* ── Logo y título ── */
-        .register-header {
+        /* ── Header ── */
+        .checkout-header {
             text-align: center;
             margin-bottom: 36px;
         }
@@ -126,7 +125,6 @@
             width: 90px;
             height: 90px;
             margin: 0 auto 20px;
-            position: relative;
         }
 
         .logo-tree svg {
@@ -135,7 +133,7 @@
             filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.3));
         }
 
-        .register-title {
+        .checkout-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.6rem;
             font-weight: 600;
@@ -147,7 +145,7 @@
             margin-bottom: 4px;
         }
 
-        .register-subtitle {
+        .checkout-subtitle {
             font-family: 'Great Vibes', cursive;
             font-size: 2.4rem;
             font-weight: 400;
@@ -156,8 +154,8 @@
             line-height: 1.1;
         }
 
-        /* ── Card del formulario ── */
-        .register-card {
+        /* ── Card ── */
+        .checkout-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 4px;
@@ -168,9 +166,8 @@
             overflow: hidden;
         }
 
-        /* Esquinas decorativas doradas */
-        .register-card::before,
-        .register-card::after {
+        .checkout-card::before,
+        .checkout-card::after {
             content: '';
             position: absolute;
             width: 50px;
@@ -179,14 +176,14 @@
             opacity: 0.4;
         }
 
-        .register-card::before {
+        .checkout-card::before {
             top: 10px;
             left: 10px;
             border-right: none;
             border-bottom: none;
         }
 
-        .register-card::after {
+        .checkout-card::after {
             bottom: 10px;
             right: 10px;
             border-left: none;
@@ -216,18 +213,60 @@
             border-top: none;
         }
 
-        /* ── Título del formulario ── */
         .form-heading {
             font-family: 'Great Vibes', cursive;
             font-size: 2rem;
             font-weight: 400;
             color: var(--gold-light);
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
             letter-spacing: 0.03em;
         }
 
-        /* ── Campos del formulario ── */
+        /* ── Resumen de compra ── */
+        .order-summary {
+            background: rgba(201, 168, 76, 0.08);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .summary-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--gold-light);
+            margin-bottom: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-total {
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(201, 168, 76, 0.3);
+            border-bottom: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--gold-light);
+        }
+
+        /* ── Campos ── */
         .form-group {
             margin-bottom: 20px;
             position: relative;
@@ -289,7 +328,6 @@
             background-size: 16px;
         }
 
-        /* ── Row de dos columnas ── */
         .form-row {
             display: flex;
             gap: 16px;
@@ -299,130 +337,6 @@
             flex: 1;
         }
 
-        /* ── Checkbox tratamiento datos ── */
-        .form-check {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 28px;
-            margin-top: 4px;
-        }
-
-        .form-check input[type="checkbox"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            min-width: 18px;
-            border: 1px solid var(--border-color);
-            border-radius: 3px;
-            background: rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            margin-top: 2px;
-        }
-
-        .form-check input[type="checkbox"]:checked {
-            background: var(--gold-primary);
-            border-color: var(--gold-primary);
-        }
-
-        .form-check input[type="checkbox"]:checked::after {
-            content: '\2713';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--bg-primary);
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .check-text {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            line-height: 1.5;
-            letter-spacing: 0.01em;
-        }
-
-        .check-text a {
-            color: var(--gold-primary);
-            text-decoration: underline;
-            transition: color 0.3s ease;
-        }
-
-        .check-text a:hover {
-            color: var(--gold-light);
-        }
-
-        /* ── Botón submit ── */
-        .btn-register {
-            width: 100%;
-            padding: 14px 24px;
-            background: var(--gold-gradient);
-            border: none;
-            border-radius: 50px;
-            color: var(--bg-primary);
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.5rem;
-            font-weight: 400;
-            letter-spacing: 0.03em;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.25);
-        }
-
-        .btn-register::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(201, 168, 76, 0.35);
-        }
-
-        .btn-register:hover::before {
-            left: 100%;
-        }
-
-        .btn-register:active {
-            transform: translateY(0);
-        }
-
-        /* ── Link ya registrado ── */
-        .login-link {
-            text-align: center;
-            margin-top: 24px;
-        }
-
-        .login-link p {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
-
-        .login-link a {
-            color: var(--gold-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .login-link a:hover {
-            color: var(--gold-light);
-        }
-
-        /* ── Errores ── */
         .form-error {
             font-size: 0.75rem;
             color: var(--error-color);
@@ -445,29 +359,156 @@
             font-weight: 400;
         }
 
+        /* ── Pasarela de pagos placeholder ── */
+        .payment-section {
+            margin: 28px 0;
+            text-align: center;
+        }
+
+        .payment-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .payment-box {
+            border: 2px dashed rgba(201, 168, 76, 0.3);
+            border-radius: 12px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-box-icon {
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+
+        .payment-box-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .payment-box-soon {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--gold-primary);
+            opacity: 0.7;
+        }
+
+        /* ── Botón ── */
+        .btn-checkout {
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 50px;
+            color: var(--bg-primary);
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.25);
+        }
+
+        .btn-checkout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(201, 168, 76, 0.35);
+        }
+
+        .btn-checkout:hover::before {
+            left: 100%;
+        }
+
+        .btn-checkout:active {
+            transform: translateY(0);
+        }
+
+        /* ── Link volver ── */
+        .back-link {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .back-link a {
+            font-size: 0.82rem;
+            color: var(--gold-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: var(--gold-light);
+        }
+
         /* ── Footer ── */
-        .register-footer {
+        .checkout-footer {
             text-align: center;
             margin-top: 28px;
         }
 
-        .register-footer p {
+        .checkout-footer p {
             font-size: 0.72rem;
             color: var(--text-muted);
             letter-spacing: 0.05em;
         }
 
+        /* ── Separador ── */
+        .form-separator {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--gold-primary);
+            text-align: center;
+            margin: 28px 0 24px;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .form-separator::before,
+        .form-separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(201, 168, 76, 0.25);
+        }
+
         /* ── Responsive ── */
         @media (max-width: 580px) {
-            .register-card {
+            .checkout-card {
                 padding: 32px 24px;
             }
 
-            .register-subtitle {
+            .checkout-subtitle {
                 font-size: 2rem;
             }
 
-            .register-title {
+            .checkout-title {
                 font-size: 1.3rem;
             }
 
@@ -482,11 +523,11 @@
         }
 
         @media (max-width: 380px) {
-            .register-container {
+            .checkout-container {
                 padding: 10px;
             }
 
-            .register-card {
+            .checkout-card {
                 padding: 28px 18px;
             }
 
@@ -496,11 +537,11 @@
                 margin-bottom: 14px;
             }
 
-            .register-title {
+            .checkout-title {
                 font-size: 1.1rem;
             }
 
-            .register-subtitle {
+            .checkout-subtitle {
                 font-size: 1.7rem;
             }
 
@@ -515,43 +556,18 @@
                 font-size: 0.85rem;
             }
 
-            .btn-register {
+            .btn-checkout {
                 padding: 12px 20px;
                 font-size: 1.3rem;
             }
-        }
 
-        @media (max-height: 700px) and (min-width: 581px) {
-            .register-header {
-                margin-bottom: 20px;
+            .order-summary {
+                padding: 16px;
             }
 
-            .logo-tree {
-                width: 70px;
-                height: 70px;
-                margin-bottom: 12px;
+            .summary-row {
+                font-size: 0.82rem;
             }
-
-            .register-card {
-                padding: 28px 28px;
-            }
-
-            .form-heading {
-                margin-bottom: 22px;
-            }
-
-            .form-group {
-                margin-bottom: 14px;
-            }
-
-            .form-check {
-                margin-bottom: 20px;
-            }
-        }
-
-        /* ── Animación de entrada ── */
-        .register-container {
-            animation: fadeInUp 0.8s ease-out;
         }
 
         @keyframes fadeInUp {
@@ -570,21 +586,42 @@
     <!-- Partículas -->
     <div class="particles" id="particles"></div>
 
-    <div class="register-container">
-        <!-- Header con logo -->
-        <div class="register-header">
+    <div class="checkout-container">
+        <!-- Header -->
+        <div class="checkout-header">
             <img src="/images/logo-fecoer.png" alt="FECOER" style="height: 160px; width: auto; filter: drop-shadow(0 0 10px rgba(201,168,76,0.35)); margin-bottom: 8px;">
-            <div class="register-subtitle">Registro</div>
+            <div class="checkout-subtitle">Checkout</div>
         </div>
 
-        <!-- Card del formulario -->
-        <div class="register-card">
+        <!-- Card -->
+        <div class="checkout-card">
             <div class="card-corner-tr"></div>
             <div class="card-corner-bl"></div>
 
-            <h2 class="form-heading">Crear Cuenta</h2>
+            <h2 class="form-heading">Finalizar Compra</h2>
 
-            <!-- Validation Errors -->
+            <!-- Resumen de compra -->
+            <div class="order-summary">
+                <h3 class="summary-title">Resumen de tu compra</h3>
+                <div class="summary-row">
+                    <span>Tipo de entrada</span>
+                    <span>{{ $ticketType === 'presencial' ? 'Presencial' : 'Virtual' }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Cantidad de boletas</span>
+                    <span>{{ $quantity }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Donaci&oacute;n</span>
+                    <span>${{ number_format($donation, 0, ',', '.') }} COP</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span>${{ number_format($total, 0, ',', '.') }} COP</span>
+                </div>
+            </div>
+
+            <!-- Errores -->
             @if ($errors->any())
                 <div class="alert-error">
                     @foreach ($errors->all() as $error)
@@ -593,41 +630,33 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register') }}">
+            <!-- Formulario -->
+            <form method="POST" action="{{ route('checkout.store') }}">
                 @csrf
 
-                <!-- Nombres y apellidos -->
+                <input type="hidden" name="ticket_type" value="{{ $ticketType }}">
+                <input type="hidden" name="quantity" value="{{ $quantity }}">
+                <input type="hidden" name="donation" value="{{ $donation }}">
+
+                <div class="form-separator">Datos del comprador</div>
+
+                <!-- Nombres -->
                 <div class="form-group">
                     <label for="name" class="form-label">Nombres y apellidos</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="form-input"
-                        value="{{ old('name') }}"
-                        placeholder="Ingrese su nombre completo"
-                        required
-                        autofocus
-                        autocomplete="name"
-                    >
+                    <input type="text" id="name" name="name" class="form-input"
+                        value="{{ old('name', $user->name ?? '') }}"
+                        placeholder="Ingrese su nombre completo" required>
                     @error('name')
                         <p class="form-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Correo electrónico -->
+                <!-- Email -->
                 <div class="form-group">
-                    <label for="email" class="form-label">Correo electrónico</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-input"
-                        value="{{ old('email') }}"
-                        placeholder="correo@ejemplo.com"
-                        required
-                        autocomplete="username"
-                    >
+                    <label for="email" class="form-label">Correo electr&oacute;nico</label>
+                    <input type="email" id="email" name="email" class="form-input"
+                        value="{{ old('email', $user->email ?? '') }}"
+                        placeholder="correo@ejemplo.com" required>
                     @error('email')
                         <p class="form-error">{{ $message }}</p>
                     @enderror
@@ -638,12 +667,12 @@
                     <div class="form-group">
                         <label for="tipo_documento" class="form-label">Tipo de documento</label>
                         <select id="tipo_documento" name="tipo_documento" class="form-select" required>
-                            <option value="" disabled {{ old('tipo_documento') ? '' : 'selected' }}>Seleccione</option>
-                            <option value="CC" {{ old('tipo_documento') == 'CC' ? 'selected' : '' }}>Cédula de Ciudadanía</option>
-                            <option value="CE" {{ old('tipo_documento') == 'CE' ? 'selected' : '' }}>Cédula de Extranjería</option>
-                            <option value="TI" {{ old('tipo_documento') == 'TI' ? 'selected' : '' }}>Tarjeta de Identidad</option>
-                            <option value="PP" {{ old('tipo_documento') == 'PP' ? 'selected' : '' }}>Pasaporte</option>
-                            <option value="NIT" {{ old('tipo_documento') == 'NIT' ? 'selected' : '' }}>NIT</option>
+                            <option value="" disabled {{ old('tipo_documento', $user->tipo_documento ?? '') ? '' : 'selected' }}>Seleccione</option>
+                            <option value="CC" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'CC' ? 'selected' : '' }}>C&eacute;dula de Ciudadan&iacute;a</option>
+                            <option value="CE" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'CE' ? 'selected' : '' }}>C&eacute;dula de Extranjer&iacute;a</option>
+                            <option value="TI" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'TI' ? 'selected' : '' }}>Tarjeta de Identidad</option>
+                            <option value="PP" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'PP' ? 'selected' : '' }}>Pasaporte</option>
+                            <option value="NIT" {{ old('tipo_documento', $user->tipo_documento ?? '') == 'NIT' ? 'selected' : '' }}>NIT</option>
                         </select>
                         @error('tipo_documento')
                             <p class="form-error">{{ $message }}</p>
@@ -651,34 +680,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="numero_documento" class="form-label">Número de documento</label>
-                        <input
-                            type="text"
-                            id="numero_documento"
-                            name="numero_documento"
-                            class="form-input"
-                            value="{{ old('numero_documento') }}"
-                            placeholder="123456789"
-                            required
-                        >
+                        <label for="numero_documento" class="form-label">N&uacute;mero de documento</label>
+                        <input type="text" id="numero_documento" name="numero_documento" class="form-input"
+                            value="{{ old('numero_documento', $user->numero_documento ?? '') }}"
+                            placeholder="123456789" required>
                         @error('numero_documento')
                             <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
-                <!-- Celular / WhatsApp -->
+                <!-- Celular -->
                 <div class="form-group">
                     <label for="celular" class="form-label">Celular / WhatsApp</label>
-                    <input
-                        type="tel"
-                        id="celular"
-                        name="celular"
-                        class="form-input"
-                        value="{{ old('celular') }}"
-                        placeholder="300 123 4567"
-                        required
-                    >
+                    <input type="tel" id="celular" name="celular" class="form-input"
+                        value="{{ old('celular', $user->celular ?? '') }}"
+                        placeholder="300 123 4567" required>
                     @error('celular')
                         <p class="form-error">{{ $message }}</p>
                     @enderror
@@ -687,88 +704,65 @@
                 <!-- Organización -->
                 <div class="form-group">
                     <label for="organizacion" class="form-label">
-                        ¿A qué entidad u organización pertenece? <span class="optional">(Opcional)</span>
+                        &iquest;A qu&eacute; entidad u organizaci&oacute;n pertenece? <span class="optional">(Opcional)</span>
                     </label>
-                    <input
-                        type="text"
-                        id="organizacion"
-                        name="organizacion"
-                        class="form-input"
-                        value="{{ old('organizacion') }}"
-                        placeholder="Nombre de la entidad"
-                    >
+                    <input type="text" id="organizacion" name="organizacion" class="form-input"
+                        value="{{ old('organizacion', $user->organizacion ?? '') }}"
+                        placeholder="Nombre de la entidad">
                     @error('organizacion')
                         <p class="form-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Contraseña -->
-                <div class="form-group">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-input"
-                        placeholder="••••••••"
-                        required
-                        autocomplete="new-password"
-                    >
-                    @error('password')
-                        <p class="form-error">{{ $message }}</p>
-                    @enderror
+                <!-- Pasarela de pagos -->
+                <div class="payment-section">
+                    <p class="payment-label">Pasarela de pago</p>
+                    @if($epaycoConfigured)
+                        <div class="payment-box" style="border-style: solid; border-color: rgba(201, 168, 76, 0.4); display: flex; align-items: center; gap: 12px;">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--gold-primary); flex-shrink: 0;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            <span class="payment-box-text" style="color: var(--text-secondary); flex: 1;">
+                                Pago seguro con <strong style="color: var(--gold-light);">ePayco</strong>
+                            </span>
+                            @if($epaycoTestMode)
+                                <span style="font-size: 0.68rem; color: #f39c12; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; background: rgba(243, 156, 18, 0.15); border: 1px solid rgba(243, 156, 18, 0.3); border-radius: 50px; flex-shrink: 0;">
+                                    Prueba
+                                </span>
+                            @endif
+                        </div>
+                    @else
+                        <div class="payment-box">
+                            <span class="payment-box-icon">&#128179;</span>
+                            <span class="payment-box-text">Logo de pasarela de pago</span>
+                            <span class="payment-box-soon">Pr&oacute;ximamente</span>
+                        </div>
+                    @endif
                 </div>
-
-                <!-- Confirmar Contraseña -->
-                <div class="form-group">
-                    <label for="password_confirmation" class="form-label">Confirmar contraseña</label>
-                    <input
-                        type="password"
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        class="form-input"
-                        placeholder="••••••••"
-                        required
-                        autocomplete="new-password"
-                    >
-                </div>
-
-                <!-- Tratamiento de datos -->
-                <div class="form-check">
-                    <input type="checkbox" name="acepta_tratamiento_datos" id="acepta_tratamiento_datos" value="1" {{ old('acepta_tratamiento_datos') ? 'checked' : '' }}>
-                    <span class="check-text">
-                        He leído y acepto la <a href="#">Política de Tratamiento de Datos Personales</a> y autorizo a FECOER para recolectar, almacenar y tratar mis datos personales conforme a las finalidades descritas.
-                    </span>
-                </div>
-                @error('acepta_tratamiento_datos')
-                    <p class="form-error" style="margin-top: -20px; margin-bottom: 20px;">{{ $message }}</p>
-                @enderror
 
                 <!-- Submit -->
-                <button type="submit" class="btn-register">
-                    Enviar
+                <button type="submit" class="btn-checkout">
+                    {{ $epaycoConfigured ? 'Proceder al Pago' : 'Confirmar Compra' }}
                 </button>
             </form>
 
-            <!-- Link a login -->
-            <div class="login-link">
-                <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar sesión</a></p>
+            <!-- Volver -->
+            <div class="back-link">
+                <a href="/#entradas">&larr; Volver a entradas</a>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="register-footer">
+        <div class="checkout-footer">
             <p>Copyright &copy; {{ date('Y') }} Todos los derechos reservados FECOER</p>
         </div>
     </div>
 
     <script>
-        // Generar partículas brillantes con tipos variados
         (function() {
             const container = document.getElementById('particles');
             const types = ['glow', 'soft', 'bright'];
 
-            // Partículas flotantes
             for (let i = 0; i < 60; i++) {
                 const particle = document.createElement('div');
                 const type = types[Math.floor(Math.random() * types.length)];
@@ -785,7 +779,6 @@
                 container.appendChild(particle);
             }
 
-            // Partículas estáticas (titilantes)
             for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle particle--static';

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="/images/logo.png">
     <title>Acceso - FECOER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -557,50 +558,7 @@
     <div class="login-container">
         <!-- Header con logo -->
         <div class="login-header">
-            <div class="logo-tree">
-                <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Tronco -->
-                    <path d="M50 120 L50 55 Q48 50 42 48 Q36 46 38 40 Q40 34 46 36 Q44 30 48 26 Q52 22 56 26 Q60 30 58 36 Q64 34 66 40 Q68 46 62 48 Q56 50 54 55 L54 120" fill="url(#trunkGrad)" opacity="0.9"/>
-                    <!-- Hojas/pétalos -->
-                    <g opacity="0.95">
-                        <ellipse cx="50" cy="32" rx="5" ry="8" transform="rotate(-15 50 32)" fill="url(#leafGrad)"/>
-                        <ellipse cx="38" cy="38" rx="4.5" ry="7" transform="rotate(-40 38 38)" fill="url(#leafGrad)"/>
-                        <ellipse cx="62" cy="38" rx="4.5" ry="7" transform="rotate(40 62 38)" fill="url(#leafGrad)"/>
-                        <ellipse cx="32" cy="30" rx="4" ry="6.5" transform="rotate(-55 32 30)" fill="url(#leafGrad)"/>
-                        <ellipse cx="68" cy="30" rx="4" ry="6.5" transform="rotate(55 68 30)" fill="url(#leafGrad)"/>
-                        <ellipse cx="44" cy="22" rx="4" ry="6.5" transform="rotate(-25 44 22)" fill="url(#leafGrad)"/>
-                        <ellipse cx="56" cy="22" rx="4" ry="6.5" transform="rotate(25 56 22)" fill="url(#leafGrad)"/>
-                        <ellipse cx="36" cy="18" rx="3.5" ry="6" transform="rotate(-50 36 18)" fill="url(#leafGrad)"/>
-                        <ellipse cx="64" cy="18" rx="3.5" ry="6" transform="rotate(50 64 18)" fill="url(#leafGrad)"/>
-                        <ellipse cx="50" cy="14" rx="4" ry="7" transform="rotate(0 50 14)" fill="url(#leafGrad)"/>
-                        <ellipse cx="28" cy="24" rx="3" ry="5.5" transform="rotate(-65 28 24)" fill="url(#leafGrad2)"/>
-                        <ellipse cx="72" cy="24" rx="3" ry="5.5" transform="rotate(65 72 24)" fill="url(#leafGrad2)"/>
-                        <ellipse cx="42" cy="12" rx="3" ry="5" transform="rotate(-30 42 12)" fill="url(#leafGrad2)"/>
-                        <ellipse cx="58" cy="12" rx="3" ry="5" transform="rotate(30 58 12)" fill="url(#leafGrad2)"/>
-                        <ellipse cx="50" cy="6" rx="3" ry="5" fill="url(#leafGrad2)"/>
-                        <!-- Hojas volando -->
-                        <ellipse cx="22" cy="14" rx="2.5" ry="4.5" transform="rotate(-70 22 14)" fill="url(#leafGrad2)" opacity="0.7"/>
-                        <ellipse cx="76" cy="10" rx="2.5" ry="4" transform="rotate(60 76 10)" fill="url(#leafGrad2)" opacity="0.6"/>
-                        <ellipse cx="80" cy="22" rx="2" ry="3.5" transform="rotate(75 80 22)" fill="url(#leafGrad2)" opacity="0.5"/>
-                        <ellipse cx="18" cy="8" rx="2" ry="3.5" transform="rotate(-60 18 8)" fill="url(#leafGrad)" opacity="0.5"/>
-                    </g>
-                    <defs>
-                        <linearGradient id="trunkGrad" x1="46" y1="25" x2="54" y2="120">
-                            <stop offset="0%" stop-color="#c9a84c"/>
-                            <stop offset="100%" stop-color="#8a6b20"/>
-                        </linearGradient>
-                        <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#e8d48b"/>
-                            <stop offset="100%" stop-color="#c9a84c"/>
-                        </linearGradient>
-                        <linearGradient id="leafGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#c9a84c"/>
-                            <stop offset="100%" stop-color="#a07c2a"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-            <div class="login-title">FECOER</div>
+            <img src="/images/logo-fecoer.png" alt="FECOER" style="height: 160px; width: auto; filter: drop-shadow(0 0 10px rgba(201,168,76,0.35)); margin-bottom: 8px;">
             <div class="login-subtitle">Acceso al Sistema</div>
         </div>
 

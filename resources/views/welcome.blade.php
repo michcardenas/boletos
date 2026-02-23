@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="/images/logo.png">
     <title>Segunda Gala de Reconocimientos - FECOER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -461,14 +462,14 @@
             <div class="hero-right fade-in">
                 <div class="gold-frame">
                     <div class="frame-particles" id="frameParticles"></div>
-                    <p>Cada avance en Enfermedades Raras tiene un rostro, una historia y una lucha silenciosa detrás. Nada de lo que hoy existe ha sido casualidad: ha sido fruto de personas, instituciones e iniciativas que no se rindieron cuando el camino fue más difícil.</p>
-                    <p>La Segunda Gala de Reconocimientos FECOER es el espacio para decir gracias, para visibilizar a quienes defienden la vida, el acceso a la salud y la dignidad de las personas con Enfermedades Raras en Colombia.</p>
+                    <p>{{ App\Models\SiteContent::get('hero_parrafo_1') }}</p>
+                    <p>{{ App\Models\SiteContent::get('hero_parrafo_2') }}</p>
                 </div>
             </div>
         </div>
         <div class="hero-date fade-in">
-            <div class="hero-date-text">Viernes 27 de febrero de 2026 - 6:00 p. m.</div>
-            <div class="hero-date-venue">Hotel Sonesta, Bogotá.</div>
+            <div class="hero-date-text">{{ App\Models\SiteContent::get('hero_fecha') }}</div>
+            <div class="hero-date-venue">{{ App\Models\SiteContent::get('hero_lugar') }}</div>
         </div>
     </section>
 
@@ -480,10 +481,10 @@
                 <img src="/images/boleto.png" alt="Boleto Segunda Gala de Reconocimientos FECOER" class="ticket-img">
             </div>
             <div class="entradas-form fade-in">
-                <form>
+                <form method="GET" action="{{ route('checkout') }}">
                     <div class="form-group">
                         <label class="form-label">Tipo de entrada</label>
-                        <select class="form-select">
+                        <select name="ticket_type" class="form-select" required>
                             <option value="">Seleccionar...</option>
                             <option value="presencial">Presencial</option>
                             <option value="virtual">Virtual</option>
@@ -491,11 +492,11 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Cantidad de boletas</label>
-                        <input type="number" class="form-input" min="1" max="10" placeholder="1">
+                        <input type="number" name="quantity" class="form-input" min="1" max="10" value="1" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Donación</label>
-                        <input type="text" class="form-input" placeholder="$ 0">
+                        <input type="number" name="donation" class="form-input" min="0" step="1000" value="0" placeholder="$ 0">
                     </div>
                     <button type="submit" class="btn-pago">
                         <img src="/images/pago.png" alt="Pago seguro" class="btn-pago-img">
@@ -504,7 +505,7 @@
                 </form>
             </div>
         </div>
-        <p class="entradas-note fade-in">Tu aporte nos ayudará a continuar trabajando por las personas con enfermedades raras.<br><strong>¡Gracias por ser parte de esta causa!</strong></p>
+        <p class="entradas-note fade-in">{!! App\Models\SiteContent::get('entradas_nota') !!}</p>
     </section>
 
     <!-- ═══ PROGRAMACIÓN ═══ -->
@@ -520,12 +521,13 @@
     <section class="section" id="aliados">
         <div class="section-title fade-in">Aliados</div>
         <div class="aliados-grid fade-in">
-            <div class="aliado-card">Aliado 1</div>
-            <div class="aliado-card">Aliado 2</div>
-            <div class="aliado-card">Aliado 3</div>
-            <div class="aliado-card">Aliado 4</div>
-            <div class="aliado-card">Aliado 5</div>
-            <div class="aliado-card">Aliado 6</div>
+            @forelse(App\Models\Aliado::where('activo', true)->orderBy('orden')->get() as $aliado)
+                <div class="aliado-card">
+                    <img src="{{ asset('storage/' . $aliado->imagen) }}" alt="{{ $aliado->nombre }}" style="max-width: 100%; max-height: 80px; object-fit: contain;">
+                </div>
+            @empty
+                <div class="aliado-card">Sin aliados</div>
+            @endforelse
         </div>
     </section>
 
@@ -556,12 +558,12 @@
     <footer class="site-footer">
         <div class="footer-copy">Copyright &copy; {{ date('Y') }} Todos los derechos reservados FECOER</div>
         <div class="footer-socials">
-            <a href="#" class="social-btn" title="Facebook">f</a>
-            <a href="#" class="social-btn" title="X">𝕏</a>
-            <a href="#" class="social-btn" title="Instagram">
+            <a href="{{ App\Models\SiteContent::get('facebook_url', '#') }}" class="social-btn" title="Facebook" target="_blank">f</a>
+            <a href="{{ App\Models\SiteContent::get('x_url', '#') }}" class="social-btn" title="X" target="_blank">&#x1d54f;</a>
+            <a href="{{ App\Models\SiteContent::get('instagram_url', '#') }}" class="social-btn" title="Instagram" target="_blank">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
             </a>
-            <a href="#" class="social-btn" title="TikTok">
+            <a href="{{ App\Models\SiteContent::get('tiktok_url', '#') }}" class="social-btn" title="TikTok" target="_blank">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.52a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.19a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.62z"/></svg>
             </a>
         </div>
