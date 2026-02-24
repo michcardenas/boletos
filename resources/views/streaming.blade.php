@@ -303,8 +303,8 @@
                 <div class="card-corner-bl"></div>
 
                 <div class="video-wrapper" oncontextmenu="return false;">
-                    <iframe
-                        src="{{ $embedUrl }}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1"
+                    <iframe id="ytplayer"
+                        src="{{ $embedUrl }}?autoplay=1&mute=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&origin={{ urlencode(config('app.url')) }}"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
