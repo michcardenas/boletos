@@ -302,12 +302,13 @@
                 <div class="card-corner-tr"></div>
                 <div class="card-corner-bl"></div>
 
-                <div class="video-wrapper">
+                <div class="video-wrapper" oncontextmenu="return false;">
                     <iframe
-                        src="{{ $embedUrl }}?autoplay=1&rel=0&modestbranding=1"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
+                        src="{{ $embedUrl }}?autoplay=1&rel=0&modestbranding=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&playsinline=1&showinfo=0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope"
+                        referrerpolicy="no-referrer">
                     </iframe>
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: default;" oncontextmenu="return false;"></div>
                 </div>
 
                 @if(!empty($description))
