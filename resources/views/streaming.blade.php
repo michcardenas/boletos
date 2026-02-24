@@ -305,10 +305,9 @@
                 <div class="video-wrapper" oncontextmenu="return false;">
                     <iframe
                         src="{{ $embedUrl }}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
-                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: default;" oncontextmenu="return false;"></div>
                 </div>
 
                 @if(!empty($description))
