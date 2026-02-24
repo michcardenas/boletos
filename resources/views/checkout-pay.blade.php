@@ -376,7 +376,7 @@
             var paymentData = {
                 name: 'Boleta FECOER - {{ $order->ticket_type === "presencial" ? "Presencial" : "Virtual" }}',
                 description: 'Orden #{{ $order->id }} - {{ $order->quantity }} boleta(s) Segunda Gala FECOER',
-                invoice: '{{ $order->id }}',
+                invoice: 'FECOER-{{ $order->id }}-{{ time() }}',
                 currency: 'cop',
                 amount: '{{ intval($order->total) }}',
                 tax_base: '0',
