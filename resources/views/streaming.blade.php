@@ -179,11 +179,33 @@
 
         .video-wrapper iframe {
             position: absolute;
-            top: 0;
+            top: -60px;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% + 120px);
             border: none;
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            z-index: 10;
+            background: linear-gradient(to top, var(--bg-primary) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .video-overlay-top {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 60px;
+            z-index: 10;
+            background: transparent;
+            cursor: default;
         }
 
         .stream-description {
@@ -304,10 +326,12 @@
 
                 <div class="video-wrapper" oncontextmenu="return false;">
                     <iframe id="ytplayer"
-                        src="{{ $embedUrl }}?autoplay=1&mute=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&origin={{ urlencode(config('app.url')) }}"
+                        src="{{ $embedUrl }}?autoplay=1&mute=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&disablekb=1&origin={{ urlencode(config('app.url')) }}"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
+                    <div class="video-overlay"></div>
+                    <div class="video-overlay-top" oncontextmenu="return false;"></div>
                 </div>
 
                 @if(!empty($description))
