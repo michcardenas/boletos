@@ -132,7 +132,7 @@
                             Vista previa
                         </label>
                         <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; border: 1px solid var(--border-gold);" oncontextmenu="return false;">
-                            <iframe src="{{ $previewEmbed }}?rel=0&modestbranding=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&showinfo=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; encrypted-media; gyroscope" referrerpolicy="no-referrer"></iframe>
+                            <iframe src="{{ $previewEmbed }}?rel=0&modestbranding=1&iv_load_policy=3" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; encrypted-media; gyroscope" allowfullscreen></iframe>
                             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: default;" oncontextmenu="return false;"></div>
                         </div>
                     </div>
