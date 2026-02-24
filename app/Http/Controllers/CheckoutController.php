@@ -21,7 +21,7 @@ class CheckoutController extends Controller
             return redirect('/#entradas');
         }
 
-        $quantity = max(1, min(10, $quantity));
+        $quantity = max(1, min(11, $quantity));
         $donation = max(0, $donation);
         $total    = $donation;
 
@@ -49,7 +49,7 @@ class CheckoutController extends Controller
             'celular'          => ['required', 'string', 'max:20'],
             'organizacion'     => ['nullable', 'string', 'max:255'],
             'ticket_type'      => ['required', 'in:presencial,virtual'],
-            'quantity'         => ['required', 'integer', 'min:1', 'max:10'],
+            'quantity'         => ['required', 'integer', 'min:1', 'max:11'],
             'donation'         => ['required', 'numeric', 'min:0'],
         ]);
 

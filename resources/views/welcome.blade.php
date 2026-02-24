@@ -492,11 +492,12 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Cantidad de boletas</label>
-                        <input type="number" name="quantity" class="form-input" min="1" max="10" value="1" required>
+                        <input type="number" name="quantity" class="form-input" min="1" max="11" value="1" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Donación</label>
-                        <input type="number" name="donation" class="form-input" min="0" step="1000" value="0" placeholder="$ 0">
+                        <input type="text" id="donationDisplay" class="form-input" value="0" placeholder="$ 0" inputmode="numeric">
+                        <input type="hidden" name="donation" id="donationValue" value="0">
                     </div>
                     <button type="submit" class="btn-pago">
                         <img src="/images/pago.png" alt="Pago seguro" class="btn-pago-img">
@@ -636,6 +637,34 @@
             document.getElementById('navLinks').classList.remove('open');
             document.getElementById('navHamburger').classList.remove('active');
         }
+
+        // ═══ DONACIÓN CON SEPARADOR DE MILES ═══
+        (function() {
+            const display = document.getElementById('donationDisplay');
+            const hidden = document.getElementById('donationValue');
+
+            function formatNumber(n) {
+                return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            display.addEventListener('input', function() {
+                let raw = this.value.replace(/\./g, '').replace(/[^0-9]/g, '');
+                let num = parseInt(raw) || 0;
+                hidden.value = num;
+                this.value = formatNumber(num);
+            });
+
+            display.addEventListener('focus', function() {
+                if (this.value === '0') this.value = '';
+            });
+
+            display.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.value = '0';
+                    hidden.value = 0;
+                }
+            });
+        })();
 
         // ═══ FADE IN ═══
         const observer = new IntersectionObserver((entries) => {
